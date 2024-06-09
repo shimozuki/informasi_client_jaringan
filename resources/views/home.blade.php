@@ -25,7 +25,7 @@
                                     <h5 class="card-title text-center">Jenis Jaringan</h5>
                                 </div>
                                 <div class="card-body bg-dark text-white">
-                                    <h1 class="text-center">{{ count($infotanah) }}</h1>
+                                    <h1 class="text-center">{{ count($Jaringan) }}</h1>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                                     <h5 class="card-title text-center">Pelanggan</h5>
                                 </div>
                                 <div class="card-body bg-dark text-white">
-                                    <h1 class="text-center">{{ count($pemiliklahan) }}</h1>
+                                    <h1 class="text-center">{{ count($Client) }}</h1>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                                     <h5 class="card-title text-center">Kelurahan</h5>
                                 </div>
                                 <div class="card-body bg-dark text-white">
-                                    <h1 class="text-center">{{ count($desa) }}</h1>
+                                    <h1 class="text-center">0</h1>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                                     <h5 class="card-title text-center">Area</h5>
                                 </div>
                                 <div class="card-body bg-dark text-white">
-                                    <h1 class="text-center">{{ count($potensi) }}</h1>
+                                    <h1 class="text-center">0</h1>
                                 </div>
                             </div>
                         </div>

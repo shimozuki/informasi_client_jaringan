@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\Infotanah;
+use App\Models\Client;
 use Livewire\WithPagination;
 
 class InfoSawah extends Component
@@ -16,77 +16,113 @@ class InfoSawah extends Component
     protected $queryString = ['search' => ['except' => ''], 'perPage'];
 
     protected $infotanahs;
+
+    public $nama;
+    public $alamat;
+    public $lat;
+    public $long;
+    public $jenis_jaringan;
+    public $kecepatan_jaringan;
+    public $no_tlpn;
     public function mount()
     {
-        $this->infotanahs = Infotanah::paginate($this->perPage);
+        $this->infotanahs = Client::paginate($this->perPage);
     }
-    public $jenis_tanah, $ketinggian_tanah, $kelembaban_tanah, $infotanah_id;
 
-    public function resetInput()
+    private function resetInput()
     {
-        $this->jenis_tanah = '';
-        $this->ketinggian_tanah = '';
-        $this->kelembaban_tanah = '';
-        $this->infotanah_id = '';
+        $this->nama = '';
+        $this->alamat = '';
+        $this->lat = '';
+        $this->long = '';
+        $this->jenis_jaringan = '';
+        $this->kecepatan_jaringan = '';
+        $this->no_tlpn = '';
     }
     public function render()
     {
-        $this->infotanahs = Infotanah::where('jenis_tanah', 'like', '%' . $this->search . '%')->paginate($this->perPage);
+        $this->infotanahs = Client::where('jenis_jaringan', 'like', '%' . $this->search . '%')->paginate($this->perPage);
 
-        return view('livewire.info-sawah',[
+        return view('livewire.info-sawah', [
             'infotanahs' => $this->infotanahs,
         ])->extends('layouts.app')->section('content');
     }
 
-    public function store(){
+    public function store()
+    {
         $this->validate([
-            'jenis_tanah' => 'required',
-            'ketinggian_tanah' => 'required',
-            'kelembaban_tanah' => 'required',
+            'nama' => 'required',
+            'alamat' => 'required',
+            'lat' => 'required',
+            'long' => 'required',
+            'jenis_jaringan' => 'required',
+            'kecepatan_jaringan' => 'required',
+            'no_tlpn' => 'required',
         ]);
 
-        Infotanah::create([
-            'jenis_tanah' => $this->jenis_tanah,
-            'ketinggian' => $this->ketinggian_tanah,
-            'kelembaban' => $this->kelembaban_tanah,
+        Client::create([
+            'nama' => $this->nama,
+            'alamat' => $this->alamat,
+            'lat' => $this->lat,
+            'long' => $this->long,
+            'jenis_jaringan' => $this->jenis_jaringan,
+            'kecepatan_jaringan' => $this->kecepatan_jaringan,
+            'no_tlpn' => $this->no_tlpn,
         ]);
 
         $this->resetInput();
-        $this->emit('infotanahStore');
+        $this->emit('clientStore');
     }
 
-    public function tanahId($id){
-        $tanah = Infotanah::find($id);
-        $this->infotanah_id = $id;
-        $this->jenis_tanah = $tanah->jenis_tanah;
-        $this->ketinggian_tanah = $tanah->ketinggian;
-        $this->kelembaban_tanah = $tanah->kelembaban;
+
+    public function tanahId($id)
+    {
+        $client = Client::find($id);
+        $this->id = $id;
+        $this->nama = $client->nama;
+        $this->alamat = $client->alamat;
+        $this->lat = $client->lat;
+        $this->long = $client->long;
+        $this->jenis_jaringan = $client->jenis_jaringan;
+        $this->kecepatan_jaringan = $client->kecepatan_jaringan;
+        $this->no_tlpn = $client->no_tlpn;
     }
 
-    public function update(){
+
+    public function update()
+    {
         $this->validate([
-            'jenis_tanah' => 'required',
-            'ketinggian_tanah' => 'required',
-            'kelembaban_tanah' => 'required',
+            'nama' => 'required',
+            'alamat' => 'required',
+            'lat' => 'required',
+            'long' => 'required',
+            'jenis_jaringan' => 'required',
+            'kecepatan_jaringan' => 'required',
+            'no_tlpn' => 'required',
         ]);
 
-        if($this->infotanah_id){
-            $tanah = Infotanah::find($this->infotanah_id);
-            $tanah->update([
-                'jenis_tanah' => $this->jenis_tanah,
-                'ketinggian' => $this->ketinggian_tanah,
-                'kelembaban' => $this->kelembaban_tanah,
+        if ($this->infotanah_id) {
+            $client = Client::find($this->infotanah_id);
+            $client->update([
+                'nama' => $this->nama,
+                'alamat' => $this->alamat,
+                'lat' => $this->lat,
+                'long' => $this->long,
+                'jenis_jaringan' => $this->jenis_jaringan,
+                'kecepatan_jaringan' => $this->kecepatan_jaringan,
+                'no_tlpn' => $this->no_tlpn,
             ]);
             $this->resetInput();
             $this->emit('infotanahUpdate');
         }
     }
 
-    public function delete(){
-        if($this->infotanah_id){
-            Infotanah::find($this->infotanah_id)->delete();
+
+    public function delete()
+    {
+        if ($this->infotanah_id) {
+            Client::find($this->infotanah_id)->delete();
             $this->emit('infotanahDelete');
         }
     }
-
 }

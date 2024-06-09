@@ -23,10 +23,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $infotanah = \App\Models\InfoTanah::all();
-        $pemiliklahan = \App\Models\PemilikLahan::all();
-        $desa = \App\Models\Desa::all();
-        $potensi = \App\Models\Potensi::all();
-        return view('home', compact('infotanah', 'pemiliklahan', 'desa', 'potensi'));
+        $Client = \App\Models\Client::all();
+        $Jaringan = \App\Models\Jaringan::all();
+
+        return view('home', compact('Client', 'Jaringan'));
     }
 }

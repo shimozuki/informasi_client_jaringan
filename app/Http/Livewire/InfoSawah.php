@@ -3,8 +3,8 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\Client;
 use Livewire\WithPagination;
+use App\Models\Client;
 
 class InfoSawah extends Component
 {
@@ -15,36 +15,40 @@ class InfoSawah extends Component
     public $perPage = 10;
     protected $queryString = ['search' => ['except' => ''], 'perPage'];
 
-    protected $infotanahs;
+    public $nama, $ktp, $alamat, $no_tlpn, $sn_out, $odp, $kecepatan_jaringan, $teknisi, $ket, $interface, $lat, $long, $panjang_kabel;
+    public $clientId;
 
-    public $nama;
-    public $alamat;
-    public $lat;
-    public $long;
-    public $jenis_jaringan;
-    public $kecepatan_jaringan;
-    public $no_tlpn;
     public function mount()
     {
-        $this->infotanahs = Client::paginate($this->perPage);
+        $this->resetInput();
     }
 
     private function resetInput()
     {
         $this->nama = '';
+        $this->ktp = '';
         $this->alamat = '';
+        $this->no_tlpn = '';
+        $this->sn_out = '';
+        $this->odp = '';
+        $this->kecepatan_jaringan = '';
+        $this->teknisi = '';
+        $this->ket = '';
+        $this->interface = '';
         $this->lat = '';
         $this->long = '';
-        $this->jenis_jaringan = '';
-        $this->kecepatan_jaringan = '';
-        $this->no_tlpn = '';
+        $this->panjang_kabel = '';
+        $this->clientId = null;
     }
+
     public function render()
     {
-        $this->infotanahs = Client::where('jenis_jaringan', 'like', '%' . $this->search . '%')->paginate($this->perPage);
+        $clients = Client::where('nama', 'like', '%' . $this->search . '%')
+            ->orWhere('alamat', 'like', '%' . $this->search . '%')
+            ->paginate($this->perPage);
 
-        return view('livewire.info-sawah', [
-            'infotanahs' => $this->infotanahs,
+        return view('livewire.info-client', [
+            'clients' => $clients,
         ])->extends('layouts.app')->section('content');
     }
 
@@ -52,77 +56,103 @@ class InfoSawah extends Component
     {
         $this->validate([
             'nama' => 'required',
+            'ktp' => 'required',
             'alamat' => 'required',
+            'no_tlpn' => 'required',
+            'sn_out' => 'required',
+            'odp' => 'required',
+            'kecepatan_jaringan' => 'required',
+            'teknisi' => 'required',
+            'ket' => 'required',
+            'interface' => 'required',
             'lat' => 'required',
             'long' => 'required',
-            'jenis_jaringan' => 'required',
-            'kecepatan_jaringan' => 'required',
-            'no_tlpn' => 'required',
+            'panjang_kabel' => 'required',
         ]);
 
         Client::create([
             'nama' => $this->nama,
+            'ktp' => $this->ktp,
             'alamat' => $this->alamat,
+            'no_tlpn' => $this->no_tlpn,
+            'sn_out' => $this->sn_out,
+            'odp' => $this->odp,
+            'kecepatan_jaringan' => $this->kecepatan_jaringan,
+            'teknisi' => $this->teknisi,
+            'ket' => $this->ket,
+            'interface' => $this->interface,
             'lat' => $this->lat,
             'long' => $this->long,
-            'jenis_jaringan' => $this->jenis_jaringan,
-            'kecepatan_jaringan' => $this->kecepatan_jaringan,
-            'no_tlpn' => $this->no_tlpn,
+            'panjang_kabel' => $this->panjang_kabel,
         ]);
 
         $this->resetInput();
         $this->emit('clientStore');
     }
 
-
-    public function tanahId($id)
+    public function edit($id)
     {
         $client = Client::find($id);
-        $this->id = $id;
+        $this->clientId = $id;
         $this->nama = $client->nama;
+        $this->ktp = $client->ktp;
         $this->alamat = $client->alamat;
+        $this->no_tlpn = $client->no_tlpn;
+        $this->sn_out = $client->sn_out;
+        $this->odp = $client->odp;
+        $this->kecepatan_jaringan = $client->kecepatan_jaringan;
+        $this->teknisi = $client->teknisi;
+        $this->ket = $client->ket;
+        $this->interface = $client->interface;
         $this->lat = $client->lat;
         $this->long = $client->long;
-        $this->jenis_jaringan = $client->jenis_jaringan;
-        $this->kecepatan_jaringan = $client->kecepatan_jaringan;
-        $this->no_tlpn = $client->no_tlpn;
+        $this->panjang_kabel = $client->panjang_kabel;
     }
-
 
     public function update()
     {
         $this->validate([
             'nama' => 'required',
+            'ktp' => 'required',
             'alamat' => 'required',
+            'no_tlpn' => 'required',
+            'sn_out' => 'required',
+            'odp' => 'required',
+            'kecepatan_jaringan' => 'required',
+            'teknisi' => 'required',
+            'ket' => 'required',
+            'interface' => 'required',
             'lat' => 'required',
             'long' => 'required',
-            'jenis_jaringan' => 'required',
-            'kecepatan_jaringan' => 'required',
-            'no_tlpn' => 'required',
+            'panjang_kabel' => 'required',
         ]);
 
-        if ($this->infotanah_id) {
-            $client = Client::find($this->infotanah_id);
+        if ($this->clientId) {
+            $client = Client::find($this->clientId);
             $client->update([
                 'nama' => $this->nama,
+                'ktp' => $this->ktp,
                 'alamat' => $this->alamat,
+                'no_tlpn' => $this->no_tlpn,
+                'sn_out' => $this->sn_out,
+                'odp' => $this->odp,
+                'kecepatan_jaringan' => $this->kecepatan_jaringan,
+                'teknisi' => $this->teknisi,
+                'ket' => $this->ket,
+                'interface' => $this->interface,
                 'lat' => $this->lat,
                 'long' => $this->long,
-                'jenis_jaringan' => $this->jenis_jaringan,
-                'kecepatan_jaringan' => $this->kecepatan_jaringan,
-                'no_tlpn' => $this->no_tlpn,
+                'panjang_kabel' => $this->panjang_kabel,
             ]);
             $this->resetInput();
-            $this->emit('infotanahUpdate');
+            $this->emit('clientUpdate');
         }
     }
 
-
-    public function delete()
+    public function delete($id)
     {
-        if ($this->infotanah_id) {
-            Client::find($this->infotanah_id)->delete();
-            $this->emit('infotanahDelete');
-        }
+        Client::find($id)->delete();
+        $this->emit('clientDelete');
     }
 }
+

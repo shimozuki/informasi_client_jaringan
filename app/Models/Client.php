@@ -12,11 +12,18 @@ class Client extends Model
 
     protected $fillable = [
         'nama',
+        'ktp',
         'alamat',
+        'no_tlpn',
+        'sn_out',
+        'odp',
+        'kecepatan_jaringan',
+        'teknisi',
+        'ket',
+        'interface',
         'lat',
         'long',
-        'jenis_jaringan',
-        'kecepatan_jaringan',
-        'no_tlpn',
+        'panjang_kabel',
     ];
+    
 }

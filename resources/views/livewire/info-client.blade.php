@@ -9,9 +9,6 @@
                         {{-- add button --}}    
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="{{ route('clients.export') }}" class="btn btn-success">Export Laporan</a>
-                            </div>
-                            <div class="col-md-6">
                                 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Tambah</a>
                             </div>
                         </div>

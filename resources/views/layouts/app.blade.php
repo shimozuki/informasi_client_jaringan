@@ -56,9 +56,6 @@
                         <li>
                             <a class="nav-link" href="{{ route('peta') }}">Peta</a>
                         </li>
-                        <li>
-                            <a class="nav-link" href="{{ route('laporan') }}">Laporan</a>
-                        </li>
                         {{-- <li>
                             <a class="nav-link" href="{{ route('user') }}">Manajemen User</a>
                         </li> --}}

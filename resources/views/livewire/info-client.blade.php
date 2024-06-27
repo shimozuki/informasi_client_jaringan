@@ -6,15 +6,19 @@
                     <div class="card-header">{{ __('Informasi Pelanggan') }}</div>
 
                     <div class="card-body">
-                        {{-- add button --}}
+                        {{-- add button --}}    
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
+                                <a href="{{ route('clients.export') }}" class="btn btn-success">Export Laporan</a>
+                            </div>
+                            <div class="col-md-6">
                                 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Tambah</a>
                             </div>
                         </div>
                         {{-- end add button --}}
                         <br>
                         {{-- perpage --}}
+
                         <div class="row">
                             <div class="col-md-6">
                                 <select wire:model="perPage" class="form-control">

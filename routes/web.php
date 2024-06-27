@@ -19,5 +19,6 @@ Route::get('/pemilik_lahan', LivewirePemiliklahan::class)->name('pemilik_lahan')
 Route::get('/potensi_sawah', LivewirePotensi::class)->name('potensi_sawah');
 Route::get('/peta', Peta::class)->name('peta');
 Route::get('/laporan', Laporan::class)->name('laporan');
+Route::get('clients/export/', [InfoSawah::class, 'export'])->name('clients.export');
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

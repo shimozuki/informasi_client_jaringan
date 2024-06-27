@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\ClientsExport;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Client;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InfoSawah extends Component
 {
@@ -154,5 +156,9 @@ class InfoSawah extends Component
         Client::find($id)->delete();
         $this->emit('clientDelete');
     }
-}
 
+    public function export()
+    {
+        return Excel::download(new ClientsExport, 'clients.xlsx');
+    }
+}

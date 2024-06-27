@@ -8,6 +8,7 @@
                     <div class="card-body">
                         {{-- add button --}}    
                         <div class="row">
+
                             <div class="col-md-6">
                                 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Tambah</a>
                             </div>
@@ -55,7 +56,7 @@
                                                 <td>{{ $item->kecepatan_jaringan }}</td>
                                                 <td>
                                                     <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" wire:click="tanahId({{ $item->id }})">Edit</a>
-                                                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" wire:click="tanahId({{ $item->id }})">Delete</a>
+                                                    <a href="#" class="btn btn-danger" data-bs-toggle="modal"  wire:click="delete({{ $item->id }})">Delete</a>
                                                 </td>
                                             </tr>
                                             @empty

@@ -19,6 +19,7 @@ class InfoSawah extends Component
 
     public $nama, $ktp, $alamat, $no_tlpn, $sn_out, $odp, $kecepatan_jaringan, $teknisi, $ket, $interface, $lat, $long, $panjang_kabel;
     public $clientId;
+    public $selectedClientId;
 
     public function mount()
     {
@@ -41,6 +42,31 @@ class InfoSawah extends Component
         $this->long = '';
         $this->panjang_kabel = '';
         $this->clientId = null;
+    }
+
+    public function tanahId($id)
+    {
+        $this->selectedClientId = $id;
+        // Dapatkan data client berdasarkan ID jika diperlukan
+        $client = Client::find($id);
+
+        // Set properties atau aksi lainnya
+        if ($client) {
+            $this->clientId = $client->id;
+            $this->nama = $client->nama;
+            $this->ktp = $client->ktp;
+            $this->alamat = $client->alamat;
+            $this->no_tlpn = $client->no_tlpn;
+            $this->sn_out = $client->sn_out;
+            $this->odp = $client->odp;
+            $this->kecepatan_jaringan = $client->kecepatan_jaringan;
+            $this->teknisi = $client->teknisi;
+            $this->ket = $client->ket;
+            $this->interface = $client->interface;
+            $this->lat = $client->lat;
+            $this->long = $client->long;
+            $this->panjang_kabel = $client->panjang_kabel;
+        }
     }
 
     public function render()
@@ -95,20 +121,22 @@ class InfoSawah extends Component
     public function edit($id)
     {
         $client = Client::find($id);
-        $this->clientId = $id;
-        $this->nama = $client->nama;
-        $this->ktp = $client->ktp;
-        $this->alamat = $client->alamat;
-        $this->no_tlpn = $client->no_tlpn;
-        $this->sn_out = $client->sn_out;
-        $this->odp = $client->odp;
-        $this->kecepatan_jaringan = $client->kecepatan_jaringan;
-        $this->teknisi = $client->teknisi;
-        $this->ket = $client->ket;
-        $this->interface = $client->interface;
-        $this->lat = $client->lat;
-        $this->long = $client->long;
-        $this->panjang_kabel = $client->panjang_kabel;
+        if ($client) {
+            $this->clientId = $id;
+            $this->nama = $client->nama;
+            $this->ktp = $client->ktp;
+            $this->alamat = $client->alamat;
+            $this->no_tlpn = $client->no_tlpn;
+            $this->sn_out = $client->sn_out;
+            $this->odp = $client->odp;
+            $this->kecepatan_jaringan = $client->kecepatan_jaringan;
+            $this->teknisi = $client->teknisi;
+            $this->ket = $client->ket;
+            $this->interface = $client->interface;
+            $this->lat = $client->lat;
+            $this->long = $client->long;
+            $this->panjang_kabel = $client->panjang_kabel;
+        }
     }
 
     public function update()
@@ -131,23 +159,25 @@ class InfoSawah extends Component
 
         if ($this->clientId) {
             $client = Client::find($this->clientId);
-            $client->update([
-                'nama' => $this->nama,
-                'ktp' => $this->ktp,
-                'alamat' => $this->alamat,
-                'no_tlpn' => $this->no_tlpn,
-                'sn_out' => $this->sn_out,
-                'odp' => $this->odp,
-                'kecepatan_jaringan' => $this->kecepatan_jaringan,
-                'teknisi' => $this->teknisi,
-                'ket' => $this->ket,
-                'interface' => $this->interface,
-                'lat' => $this->lat,
-                'long' => $this->long,
-                'panjang_kabel' => $this->panjang_kabel,
-            ]);
-            $this->resetInput();
-            $this->emit('clientUpdate');
+            if ($client) {
+                $client->update([
+                    'nama' => $this->nama,
+                    'ktp' => $this->ktp,
+                    'alamat' => $this->alamat,
+                    'no_tlpn' => $this->no_tlpn,
+                    'sn_out' => $this->sn_out,
+                    'odp' => $this->odp,
+                    'kecepatan_jaringan' => $this->kecepatan_jaringan,
+                    'teknisi' => $this->teknisi,
+                    'ket' => $this->ket,
+                    'interface' => $this->interface,
+                    'lat' => $this->lat,
+                    'long' => $this->long,
+                    'panjang_kabel' => $this->panjang_kabel,
+                ]);
+                $this->resetInput();
+                $this->emit('clientUpdate');
+            }
         }
     }
 

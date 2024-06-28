@@ -6,7 +6,7 @@
                     <div class="card-header">{{ __('Informasi Pelanggan') }}</div>
 
                     <div class="card-body">
-                        {{-- add button --}}    
+                        {{-- add button --}}
                         <div class="row">
 
                             <div class="col-md-6">
@@ -55,8 +55,14 @@
                                                 <td>{{ $item->panjang_kabel }}</td>
                                                 <td>{{ $item->kecepatan_jaringan }}</td>
                                                 <td>
+                                                    @if ($item->status == 0)
                                                     <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" wire:click="tanahId({{ $item->id }})">Edit</a>
-                                                    <a href="#" class="btn btn-danger" data-bs-toggle="modal"  wire:click="delete({{ $item->id }})">Delete</a>
+                                                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" wire:click="delete({{ $item->id }})">Delete</a>
+                                                    <a href="#" class="btn btn-success" data-id="{{ $item->id }}">Aktif</a>
+                                                    @else
+                                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" wire:click="tanahId({{ $item->id }})">Edit</a>
+                                                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" wire:click="delete({{ $item->id }})">Delete</a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                             @empty
@@ -379,3 +385,51 @@
     </div>
     {{-- end deleteModal --}}
 </div>
+<script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        document.getElementById('lat').value = position.coords.latitude;
+        document.getElementById('long').value = position.coords.longitude;
+
+        // Assuming you're using Livewire, trigger the update to Livewire properties
+        @this.set('lat', position.coords.latitude);
+        @this.set('long', position.coords.longitude);
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btn-success').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const id = button.getAttribute('data-id');
+                const url = `/aktif/${id}`;
+
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Status updated successfully');
+                            location.reload();
+                            // You can also update the UI accordingly here
+                        } else {
+                            alert('Error: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+    });
+</script>

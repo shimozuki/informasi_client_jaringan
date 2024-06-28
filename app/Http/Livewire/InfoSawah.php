@@ -191,4 +191,16 @@ class InfoSawah extends Component
     {
         return Excel::download(new ClientsExport, 'clients.xlsx');
     }
+
+    public function aktif($id)
+    {
+        $item = Client::find($id);
+        if ($item) {
+            $item->status = 1; // Update the status to 1
+            $item->save();
+            return response()->json(['success' => 'Status updated successfully']);
+        }
+
+        return response()->json(['error' => 'Item not found'], 404);
+    }
 }

@@ -24,6 +24,7 @@ class Client extends Model
         'lat',
         'long',
         'panjang_kabel',
+        'status'
     ];
     
 }
